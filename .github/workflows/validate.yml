@@ -1,0 +1,39 @@
+name: Validate operational evidence demo
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: operational-evidence-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Compile Python
+        run: python -m compileall -q .
+      - name: Validate scenario contract
+        run: python validate_demo.py
+      - name: Validate recovery flow
+        run: python validate_http_recovery.py
+      - name: Evidence summary
+        if: always()
+        run: |
+          echo "## OCX-OPS-001 validation" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Classification: controlled demonstration" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Commit: \`${GITHUB_SHA}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- No customer systems or credentials are used." >> "$GITHUB_STEP_SUMMARY"
