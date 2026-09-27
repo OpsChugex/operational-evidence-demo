@@ -50,3 +50,15 @@ A passing workflow is evidence that **this controlled demonstration** behaved as
 - No customer data is accessed.
 - GitHub Actions permissions are read-only.
 - Third-party actions are pinned to immutable commit SHAs.
+
+---
+
+## Related OpsChugex engineering
+
+For context on the engineering area represented in this repository:
+
+- [Engineering Proof](https://opschugex.com/engineering-proof)
+- [Incident Engineering](https://opschugex.com/incident-engineering)
+- [SRE Services](https://opschugex.com/sre)
+
+The repository classification, scope and limitations remain as documented above.
